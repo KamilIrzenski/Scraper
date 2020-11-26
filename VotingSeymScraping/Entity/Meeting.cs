@@ -14,7 +14,6 @@ namespace VotingSeymSraping.Entity
         public int NrID { get; set; }
         public int NrMeetings { get; set; }
         public DateTime DateOfVote { get; set; }
-        public Vote NumberVote { get; set; }
         public DateTime TimeOfVote { get; set; }
         public string VotingTopic { get; set; }
 

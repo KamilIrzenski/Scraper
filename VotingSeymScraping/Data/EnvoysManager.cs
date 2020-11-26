@@ -15,6 +15,7 @@ namespace VotingSeymSraping.Data
             {
                 sqliteDbContext.Deputies.Add(en);
                 sqliteDbContext.SaveChanges();
+                
             }
         }
 
@@ -27,5 +28,3 @@ namespace VotingSeymSraping.Data
 
     }
 }
-//aaaaaaaaaaaaaaaaaaaaaaaaaa
-//aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa

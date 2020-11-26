@@ -47,9 +47,6 @@ namespace VotingSeymSraping.Migrations
                     b.Property<int>("NrMeetings")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("NumberVoteId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<DateTime>("TimeOfVote")
                         .HasColumnType("TEXT");
 
@@ -58,15 +55,16 @@ namespace VotingSeymSraping.Migrations
 
                     b.HasKey("NrID");
 
-                    b.HasIndex("NumberVoteId");
-
                     b.ToTable("Meetings");
                 });
 
             modelBuilder.Entity("VotingSeymSraping.Entity.Vote", b =>
                 {
-                    b.Property<int>("NumberVoteId")
+                    b.Property<int>("VoteID")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("MeetingNrID")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("NameEnvoy")
@@ -78,22 +76,21 @@ namespace VotingSeymSraping.Migrations
                     b.Property<int?>("VoteType")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("NumberVoteId");
+                    b.HasKey("VoteID");
+
+                    b.HasIndex("MeetingNrID");
 
                     b.HasIndex("NameEnvoyID");
 
                     b.ToTable("Votes");
                 });
 
-            modelBuilder.Entity("VotingSeymSraping.Entity.Meeting", b =>
-                {
-                    b.HasOne("VotingSeymSraping.Entity.Vote", "NumberVote")
-                        .WithMany()
-                        .HasForeignKey("NumberVoteId");
-                });
-
             modelBuilder.Entity("VotingSeymSraping.Entity.Vote", b =>
                 {
+                    b.HasOne("VotingSeymSraping.Entity.Meeting", "Meeting")
+                        .WithMany()
+                        .HasForeignKey("MeetingNrID");
+
                     b.HasOne("VotingSeymSraping.Entity.Deputy", "Name")
                         .WithMany()
                         .HasForeignKey("NameEnvoyID");

@@ -173,13 +173,10 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\20201116173102_Initial.cs" />
-    <Compile Include="Migrations\20201116173102_Initial.designer.cs">
-      <DependentUpon>20201116173102_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\20201123171453_inital second.cs" />
-    <Compile Include="Migrations\20201123171453_inital second.designer.cs">
-      <DependentUpon>20201123171453_inital second.cs</DependentUpon>
+    <Compile Include="Managers\Deputymanager.cs" />
+    <Compile Include="Migrations\20201126180010_initial.cs" />
+    <Compile Include="Migrations\20201126180010_initial.designer.cs">
+      <DependentUpon>20201126180010_initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\SqliteDbContextModelSnapshot.cs" />
     <Compile Include="Program.cs" />
@@ -197,7 +194,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <None Include="MyDatabase.sqlite">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

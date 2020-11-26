@@ -50,12 +50,12 @@ namespace VotingSeymSraping
                         en.PoliticalParty = textBoxPoliticalPartial.Text;
                         //   EnvoysManager.AddEnvoys(en);
                     }
-                    dbContext.Add(en);
+                    dbContext.Deputies.Add(en);
                     dbContext.SaveChanges();
 
-                    if (en.DeputyID >0)
+                    if (en.EnvoyID >0)
                     {
-                        MessageBox.Show("Id posła to " + en.DeputyID);
+                        MessageBox.Show("Id posła to " + en.EnvoyID);
                     }
                     else
                     {

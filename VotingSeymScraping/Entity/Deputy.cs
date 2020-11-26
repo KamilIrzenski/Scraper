@@ -11,7 +11,7 @@ namespace VotingSeymSraping.Entity
     {
         [Key]
         //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int DeputyID { get; set; }
+        public int EnvoyID { get; set; }
 
         [Required]
         [StringLength(128)]
@@ -21,7 +21,7 @@ namespace VotingSeymSraping.Entity
 
         public string FullName
         {
-            get { return $"ID: {DeputyID}, {Name}, {PoliticalParty}"; }
+            get { return $"ID: {EnvoyID}, {Name}, {PoliticalParty}"; }
 
         }
     }
