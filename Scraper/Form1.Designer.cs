@@ -49,7 +49,7 @@
             this.textBoxPage.Name = "textBoxPage";
             this.textBoxPage.Size = new System.Drawing.Size(605, 20);
             this.textBoxPage.TabIndex = 1;
-            this.textBoxPage.Text = "Adres strony...";
+            this.textBoxPage.Text = "http://sejm.gov.pl/Sejm9.nsf/poslowie.xsp?type=A";
             // 
             // deputiesListBox
             // 

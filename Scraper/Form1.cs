@@ -34,6 +34,6 @@ namespace Scraper
             scraper.ScrapeData(textBoxPage.Text);
 
 
-        }//sssssssssssssssssssssssssssssss
+        }
     }
 }

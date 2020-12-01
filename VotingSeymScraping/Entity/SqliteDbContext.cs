@@ -21,8 +21,6 @@ namespace VotingSeymSraping.Data
             base.OnConfiguring(optionsBuilder);
         }
 
-        
-
 
         public DbSet<Deputy> Deputies { get; set; }
         public DbSet<Meeting> Meetings { get; set; }

@@ -13,17 +13,17 @@ namespace VotingSeymSraping.Entity
         [Key]
         public int NrID { get; set; }
         public int NrMeetings { get; set; }
-        public DateTime DateOfVote { get; set; }
-        public DateTime TimeOfVote { get; set; }
+        public string DateOfVote { get; set; }
+        public string TimeOfVote { get; set; }
         public string VotingTopic { get; set; }
 
-        //public int NrVote
-        //{
+        public string Links { get; set; }
 
-        //    get => NumberVote.;
+        public string FullName
+        {
+            get { return $"ID: {NrMeetings}, {DateOfVote}, {TimeOfVote}, {VotingTopic} "; }
 
-        //    set => NumberVote.NumberVote = Convert.ToInt32(value);
-        //}
+        }
 
     }
 }
