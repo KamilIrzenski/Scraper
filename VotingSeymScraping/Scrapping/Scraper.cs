@@ -64,16 +64,22 @@ namespace Scraper
         {
             var web = new HtmlWeb();
             var doc = web.Load(page);
-
             var sittingSeymPage = doc.DocumentNode.SelectNodes(".//tbody/tr");
+            int nrSitting = 0;
 
             foreach (var sittingPage in sittingSeymPage)
             {
-                // var nrSitting = HttpUtility.HtmlDecode(sittingPage.SelectSingleNode(".//td[@class = 'center']").InnerText);
+
+                HtmlNode node = sittingPage.SelectSingleNode(".//td[@class = 'center']");
+                if (node != null)
+                {
+                    nrSitting = Convert.ToInt32(HttpUtility.HtmlDecode(node.InnerText));
+                }
+
                 var dateSitting = HttpUtility.HtmlDecode(sittingPage.SelectSingleNode(".//td[@class = 'left']").InnerText);
                 var link = HttpUtility.HtmlDecode(sittingPage.SelectSingleNode(".//td[@class = 'left']/a").Attributes["href"].Value);
 
-                _meetings.Add(new Meeting() { DateOfVote = dateSitting, DetailsLink = link });
+                _meetings.Add(new Meeting() { DateOfVote = dateSitting, DetailsLink = link, NrMeetings = nrSitting });
 
 
             }
