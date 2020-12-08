@@ -16,9 +16,8 @@ namespace VotingSeymSraping.Entity
         public string DateOfVote { get; set; }
         public string TimeOfVote { get; set; }
         public string VotingTopic { get; set; }
-
-        public string Links { get; set; }
-
+        public string DetailsLink { get; set; }
+        public string VotingLink { get; set; }
         public string FullName
         {
             get { return $"ID: {NrMeetings}, {DateOfVote}, {TimeOfVote}, {VotingTopic} "; }

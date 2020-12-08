@@ -163,6 +163,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\EnvoysManager.cs" />
+    <Compile Include="Entity\LinkPage.cs" />
     <Compile Include="Entity\SqliteDbContext.cs" />
     <Compile Include="Entity\Deputy.cs" />
     <Compile Include="Entity\Meeting.cs" />

@@ -27,6 +27,7 @@ namespace VotingSeymSraping.Entity
         
         public Meeting Meeting { get; set; }
 
+        public string DetailsLink { get; set; }
 
         public string NameEnvoy
         {

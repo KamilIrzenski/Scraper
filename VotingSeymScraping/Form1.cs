@@ -81,7 +81,7 @@ namespace VotingSeymSraping
         private void button1_Click(object sender, EventArgs e)
         {
             Scraper.Scraper scrapper = new Scraper.Scraper();
-            scrapper.ScrapeData("http://sejm.gov.pl/Sejm9.nsf/poslowie.xsp?type=A");
+            scrapper.ScrapeDataOfVote("https://www.sejm.gov.pl/sejm9.nsf/agent.xsp?symbol=klubglos&IdGlosowania=54381&KodKlubu=PiS");
 
             using (var dbContext = new SqliteDbContext())
             {
@@ -104,41 +104,40 @@ namespace VotingSeymSraping
 
         private void scraperMeetingsBtn_Click(object sender, EventArgs e)
         {
+            List<Meeting> SrapedMeetings = new List<Meeting>();
             Scraper.Scraper scrapper = new Scraper.Scraper();
             scrapper.ScrapeDataSitting("https://www.sejm.gov.pl/sejm9.nsf/agent.xsp?symbol=posglos&NrKadencji=9");
 
-            using (var dbContext = new SqliteDbContext())
+
+            foreach (var meet in scrapper.Meetings)
             {
 
-                // dbContext.Database.ExecuteSqlCommand("DELETE FROM DEPUTIES");
-
-                foreach (var meet in scrapper.Meetings)
+                Scraper.Scraper s2 = new Scraper.Scraper();
+                s2.ScrapeDataOfDay(meet.DetailsLink);
+                foreach (var meet2 in s2.Meetings)
                 {
-                    Meeting en = new Meeting();
-                    {
-                        en.NrMeetings = meet.NrMeetings;
-                        en.DateOfVote = meet.DateOfVote;
-                        en.Links = meet.Links;
+                    Meeting meeting2 = new Meeting();
+                    meeting2.TimeOfVote = meet2.TimeOfVote;
+                    meeting2.VotingTopic = meet2.VotingTopic;
+                    meeting2.VotingLink = meet2.DetailsLink;
 
-                        Scraper.Scraper s2 = new Scraper.Scraper();
-                        s2.ScrapeDataOfDay(meet.Links);
-                        foreach (var meet2 in s2.Meetings)
-                        {
-                            Meeting meeting2 = new Meeting();
-                            meeting2.TimeOfVote = meet2.TimeOfVote;
-                            meeting2.VotingTopic = meet2.VotingTopic;
+                    meeting2.NrMeetings = meet.NrMeetings;
+                    meeting2.DateOfVote = meet.DateOfVote;
 
-                            meeting2.NrMeetings = meet.NrMeetings;
-                            meeting2.DateOfVote = meet.DateOfVote;
 
-                            dbContext.Add(meeting2);
-                            listEnvoysBox.DataSource = s2.Meetings;
-                            listEnvoysBox.DisplayMember = "FullName";
-                        }
-                    }
+                    SrapedMeetings.Add(meeting2);
+
+                    listEnvoysBox.DataSource = s2.Meetings;
+                    listEnvoysBox.DisplayMember = "FullName";
                 }
+
+
                 
-              //  dbContext.SaveChanges();
+            }
+
+            foreach (var meeting in SrapedMeetings)
+            {
+                
             }
 
         }
