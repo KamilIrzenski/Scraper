@@ -8,20 +8,11 @@ using System.Threading.Tasks;
 
 namespace VotingSeymSraping.Entity
 {
-
-    public enum VoteType
-    {
-        Z,
-        P,
-        W,
-        N
-    }
-
     public class Vote
     {
         [Key]
         public int VoteID { get; set; }
-        public VoteType? VoteType { get; set; }
+        public string VoteType { get; set; }
         
         public Deputy Name { get; set; }
         

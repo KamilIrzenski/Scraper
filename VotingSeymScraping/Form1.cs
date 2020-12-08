@@ -101,9 +101,11 @@ namespace VotingSeymSraping
                 dbContext.SaveChanges();
             }
         }
+        List<Deputy> Deputies = new List<Deputy>();
 
         private void scraperMeetingsBtn_Click(object sender, EventArgs e)
         {
+
             List<Meeting> SrapedMeetings = new List<Meeting>();
             Scraper.Scraper scrapper = new Scraper.Scraper();
             scrapper.ScrapeDataSitting("https://www.sejm.gov.pl/sejm9.nsf/agent.xsp?symbol=posglos&NrKadencji=9");
@@ -127,17 +129,47 @@ namespace VotingSeymSraping
 
                     SrapedMeetings.Add(meeting2);
 
-                    listEnvoysBox.DataSource = s2.Meetings;
-                    listEnvoysBox.DisplayMember = "FullName";
+                    //listEnvoysBox.DataSource = s2.Meetings;
+                    //listEnvoysBox.DisplayMember = "FullName";
                 }
 
 
                 
             }
 
+            
             foreach (var meeting in SrapedMeetings)
             {
-                
+                Scraper.Scraper scraperParties = new Scraper.Scraper();
+                scraperParties.ScrapeDataClubLink(meeting.VotingLink);
+
+                foreach (var link in scraperParties.Links)
+                {
+                    Scraper.Scraper scrapevoting = new Scraper.Scraper();
+                    scrapevoting.ScrapeDataOfVote(link.Link);
+
+                    foreach (var votingItem in scrapevoting.VotingList)
+                    {
+                        Deputy deputy = Deputies.Where(x => x.Name == votingItem.Name && x.PoliticalParty == link.Party)
+                            .FirstOrDefault();
+
+                        if (null == deputy)
+                        {
+                            deputy = new Deputy() {Name = votingItem.Name, PoliticalParty = link.Party};
+                            Deputies.Add(deputy);
+                        }
+
+                        Vote vote = new Vote()
+                        {
+                            Meeting = meeting,
+                            Name = deputy,
+                            VoteType = votingItem.Vote
+                        };
+                    }
+
+                }
+
+
             }
 
         }

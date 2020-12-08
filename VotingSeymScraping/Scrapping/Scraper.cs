@@ -21,16 +21,9 @@ namespace Scraper
 
         private BindingList<Deputy> _deputies = new BindingList<Deputy>();
         private BindingList<Meeting> _meetings = new BindingList<Meeting>();
-        private BindingList<LinkPage> _links = new BindingList<LinkPage>();
+        public IList<LinkPage> Links { get; set; } = new List<LinkPage>();
         private BindingList<Vote> _votes = new BindingList<Vote>();
-
-        public BindingList<LinkPage> LinkPages
-        {
-            get { return _links; }
-
-            set { _links = value; }
-
-        }
+        public IList<Voting> VotingList { get; set; } = new List<Voting>();
 
         public BindingList<Vote> Votes
         {
@@ -102,7 +95,7 @@ namespace Scraper
                 var topic = HttpUtility.HtmlDecode(votingPage.SelectSingleNode(".//td[@class = 'left']").InnerText);
                 var link = HttpUtility.HtmlDecode(votingPage.SelectSingleNode(".//td[@class = 'left']/a").Attributes["href"].Value);
 
-                _meetings.Add(new Meeting() { TimeOfVote = time, VotingTopic = topic, DetailsLink = link});
+                _meetings.Add(new Meeting() { TimeOfVote = time, VotingTopic = topic, DetailsLink = link });
 
             }
         }
@@ -116,16 +109,18 @@ namespace Scraper
 
             foreach (var votingPage in votingDatePage)
             {
-                var clubLink = HttpUtility.HtmlDecode(votingPage.SelectSingleNode(".//td[@class = 'bold']/a")
+                var nameParty = HttpUtility.HtmlDecode(votingPage.SelectSingleNode(".//td[@class = 'left']/a/strong").InnerText);
+                var clubLink = HttpUtility.HtmlDecode(votingPage.SelectSingleNode(".//td[@class = 'left']/a")
                     .Attributes["href"].Value);
 
-                //_links.Add(new LinkPage() { LinkPages = clubLink });
+                Links.Add(new LinkPage() { Link = clubLink, Party = nameParty });
+
             }
         }
         public void ScrapeDataOfVote(string page)
         {
             var web = new HtmlWeb();
-            var doc = web.Load(page);
+            var doc = web.Load("https://www.sejm.gov.pl/sejm9.nsf/" + page);
 
             var votingDatePage = doc.DocumentNode.SelectNodes(".//tbody/tr");
 
@@ -133,11 +128,27 @@ namespace Scraper
             {
                 var name = HttpUtility.HtmlDecode(votingPage.SelectSingleNode(".//td[2]").InnerText);
                 var vote = HttpUtility.HtmlDecode(votingPage.SelectSingleNode(".//td[3]").InnerText);
-                var name2 = HttpUtility.HtmlDecode(votingPage.SelectSingleNode(".//td[5]").InnerText);
-                var vote2 = HttpUtility.HtmlDecode(votingPage.SelectSingleNode(".//td[6]").InnerText);
-                _votes.Add(new Vote() { });
+                VotingList.Add(new Voting() { Name = name, Vote = vote });
+
+
+                HtmlNode node = votingPage.SelectSingleNode(".//td[5]");
+
+                if (node != null)
+                {
+                    var name2 = HttpUtility.HtmlDecode(votingPage.SelectSingleNode(".//td[5]").InnerText);
+                    var vote2 = HttpUtility.HtmlDecode(votingPage.SelectSingleNode(".//td[6]").InnerText);
+                    VotingList.Add(new Voting() { Name = name2, Vote = vote2 });
+                }
+
+
 
             }
+        }
+
+        public class Voting
+        {
+            public string Name { get; set; }
+            public string Vote { get; set; }
         }
 
 
