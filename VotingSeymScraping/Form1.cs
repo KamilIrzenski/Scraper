@@ -101,12 +101,14 @@ namespace VotingSeymSraping
                 dbContext.SaveChanges();
             }
         }
+
         List<Deputy> Deputies = new List<Deputy>();
+        List<Vote> Votes = new List<Vote>();
+        List<Meeting> SrapedMeetings = new List<Meeting>();
 
         private void scraperMeetingsBtn_Click(object sender, EventArgs e)
         {
 
-            List<Meeting> SrapedMeetings = new List<Meeting>();
             Scraper.Scraper scrapper = new Scraper.Scraper();
             scrapper.ScrapeDataSitting("https://www.sejm.gov.pl/sejm9.nsf/agent.xsp?symbol=posglos&NrKadencji=9");
 
@@ -138,7 +140,7 @@ namespace VotingSeymSraping
             }
 
             
-            foreach (var meeting in SrapedMeetings)
+            foreach (var meeting in SrapedMeetings.Take(5))
             {
                 Scraper.Scraper scraperParties = new Scraper.Scraper();
                 scraperParties.ScrapeDataClubLink(meeting.VotingLink);
@@ -162,14 +164,25 @@ namespace VotingSeymSraping
                         Vote vote = new Vote()
                         {
                             Meeting = meeting,
-                            Name = deputy,
+                            Deputy = deputy,
                             VoteType = votingItem.Vote
                         };
+
+                        Votes.Add(vote);
                     }
 
                 }
 
+            }
 
+            using (SqliteDbContext context = new SqliteDbContext())
+            {
+                context.Meetings.AddRange(SrapedMeetings);
+                context.Deputies.AddRange(Deputies);
+                context.Votes.AddRange(Votes);
+
+
+                context.SaveChanges();
             }
 
         }

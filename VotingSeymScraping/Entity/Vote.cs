@@ -14,7 +14,7 @@ namespace VotingSeymSraping.Entity
         public int VoteID { get; set; }
         public string VoteType { get; set; }
         
-        public Deputy Name { get; set; }
+        public Deputy Deputy { get; set; }
         
         public Meeting Meeting { get; set; }
 
@@ -23,9 +23,9 @@ namespace VotingSeymSraping.Entity
         public string NameEnvoy
         {
 
-            get => Name.Name;
+            get => Deputy.Name;
 
-            set => Name.Name = value;
+            set => Deputy.Name = value;
         }
         
     }

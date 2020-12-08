@@ -68,7 +68,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(35, 13);
             this.label1.TabIndex = 3;
-            this.label1.Text = "Name";
+            this.label1.Text = "Deputy";
             // 
             // label2
             // 
@@ -77,7 +77,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(58, 13);
             this.label2.TabIndex = 4;
-            this.label2.Text = "Last Name";
+            this.label2.Text = "Last Deputy";
             // 
             // label3
             // 

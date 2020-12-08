@@ -41,13 +41,19 @@ namespace VotingSeymSraping.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("DateOfVote")
+                    b.Property<string>("DateOfVote")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("DetailsLink")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("NrMeetings")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("TimeOfVote")
+                    b.Property<string>("TimeOfVote")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("VotingLink")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("VotingTopic")
@@ -64,36 +70,39 @@ namespace VotingSeymSraping.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<int?>("DeputyEnvoyID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("DetailsLink")
+                        .HasColumnType("TEXT");
+
                     b.Property<int?>("MeetingNrID")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("NameEnvoy")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("NameEnvoyID")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("VoteType")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("VoteType")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("VoteID");
 
-                    b.HasIndex("MeetingNrID");
+                    b.HasIndex("DeputyEnvoyID");
 
-                    b.HasIndex("NameEnvoyID");
+                    b.HasIndex("MeetingNrID");
 
                     b.ToTable("Votes");
                 });
 
             modelBuilder.Entity("VotingSeymSraping.Entity.Vote", b =>
                 {
+                    b.HasOne("VotingSeymSraping.Entity.Deputy", "Deputy")
+                        .WithMany()
+                        .HasForeignKey("DeputyEnvoyID");
+
                     b.HasOne("VotingSeymSraping.Entity.Meeting", "Meeting")
                         .WithMany()
                         .HasForeignKey("MeetingNrID");
-
-                    b.HasOne("VotingSeymSraping.Entity.Deputy", "Name")
-                        .WithMany()
-                        .HasForeignKey("NameEnvoyID");
                 });
 #pragma warning restore 612, 618
         }
